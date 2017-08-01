@@ -1,0 +1,38 @@
+<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
+  <button class="navbar-toggler navbar-toggler-right" type="button" (click)="onToggle()">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" routerLink="/">
+    <img src="../../../assets/img/grapeopus.png" alt="" class="img-responsive"
+         style="width: 35px;">GrapeOpus</a>
+    <div class="collapse navbar-collapse" [ngClass]="{'show':this.toggle}">
+      <ul class="navbar-nav mr-auto">
+        <li routerLinkActive="active" class="nav-item" *ngIf="isAuthenticated()">
+          <a [routerLink]="['/recipes']" class="nav-link">Recipes</a>
+        </li>
+        <li routerLinkActive="active" class="nav-item" *ngIf="isAuthenticated()">
+          <a [routerLink]="['/shopping-list']" class="nav-link">Shopping List</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <ng-template [ngIf]="!isAuthenticated()">
+          <li class="nav-item">
+            <a routerLink="/signup" class="nav-link">Register</a>
+          </li>
+          <li class="nav-item">
+            <a routerLink="/signin" class="nav-link">Login</a>
+          </li>
+        </ng-template>
+        <li *ngIf="isAuthenticated()" class="nav-item">
+          <a style="cursor: pointer" (click)="onLogout()" class="nav-link">Logout</a>
+        </li>
+        <li class="dropdown" appDropdown *ngIf="isAuthenticated()">
+          <a style="cursor: pointer" class="dropdown-toggle nav-link open" role="button">Manage</a>
+          <ul class="dropdown-menu dropdown-menu-right">
+            <li class="dropdown-item"><a style="cursor: pointer" (click)="onSave()">Save Data</a></li>
+            <li class="dropdown-item"><a style="cursor: pointer" (click)="onFetch()">Fetch Data</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+</nav>
