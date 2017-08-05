@@ -1,3 +1,22 @@
 img {
-	max-height: 350px;
+	max-height:auto;
+  width: 100%;
+}
+a {
+  color: black;
+}
+a:hover{
+  color:black;
+}
+.scroller {
+  max-height:520px;
+  overflow-y: auto;
+}
+
+.desc {
+  padding:10px;
+  background-color: #bdbdbd ;
+  font-weight:bold;
+  width:100%;
+  margin:10px 0 10px 0;
 }

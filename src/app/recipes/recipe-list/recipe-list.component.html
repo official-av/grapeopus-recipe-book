@@ -1,12 +1,18 @@
-<div class="container"><div class="row">
-  <div class="col-xs-12">
-    <button class="btn btn-success" (click)="onNewRecipe()">New Recipe</button>
-  </div>
-</div>
-  <hr>
-  <div class="row">
-    <div class="col-xs-12">
-      <app-recipe-item *ngFor="let recipe of recipes;let i=index" [curRecipe]="recipe" [index]="i" (clickedRecipe)="onRecipeSelected(recipe)"></app-recipe-item>
+<div class="container">
+  <div class="card scroller">
+    <div class="card-block">
+      <div class="row">
+        <div class="col-xs-12 col-md-12 col-lg-12 ">
+          <button class="btn btn-success" style="margin-left: 10px" (click)="onNewRecipe()">New Recipe</button>
+        </div>
+      </div>
+      <hr>
+      <div class="row justify-content-center">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+          <app-recipe-item *ngFor="let recipe of recipes;let i=index" [curRecipe]="recipe"
+                           [index]="i"></app-recipe-item>
+        </div>
+      </div>
     </div>
   </div>
 </div>
