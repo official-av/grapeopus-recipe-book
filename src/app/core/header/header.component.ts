@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 
  export class HeaderComponent {
    @ViewChild('nav') el:ElementRef;
+   search=false;
    toggle=false;
 	 recipes=[];
 
