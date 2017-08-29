@@ -1,5 +1,5 @@
 <div class="card scroller">
-  <div class="card-block">
+  <div class="card-body">
     <div class="container">
       <div class="row">
         <div class="col-xs-12" style="width: 100%;">
@@ -11,11 +11,11 @@
           <h1>{{recipeDetails.name}}</h1>
         </div>
         <div class="col-xs-12 ml-auto">
-          <div class="btn-group" appDropdown>
-            <button class="btn btn-primary dropdown-toggle" style="margin-top: 10px">Manage Recipe
+          <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" (click)="toggledrop()" style="margin-top: 10px">Manage Recipe
               <span class="caret"></span>
             </button>
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu" [ngClass]="{'show':this.toggle}">
               <li><a (click)="addToList()" style="cursor: pointer">To Shopping list</a></li>
               <li><a style="cursor: pointer" routerLink="edit" style="text-decoration: none">Edit Recipe</a></li>
               <li><a style="cursor: pointer" (click)="onDelete()">Delete Recipe</a></li>

@@ -10,6 +10,7 @@ import {RecipeService} from '../recipes.service';
 export class RecipeDetailComponent implements OnInit {
 	recipeDetails:Recipe;
 	recId:number;
+	toggle=false;
   constructor(private recpService:RecipeService,private route:ActivatedRoute,private router:Router) { }
 
   ngOnInit() {
@@ -19,15 +20,19 @@ export class RecipeDetailComponent implements OnInit {
 				this.recipeDetails=this.recpService.getRecipeDetails(this.recId);
 			}
 		)
-		
+
   }
 
 	addToList(){
 		this.recpService.addToShopList(this.recipeDetails.ingredients);
 	}
-	
+
 	onDelete(){
 		this.recpService.removeRecipe(this.recId);
 		this.router.navigate(['/recipes']);
 	}
+
+	toggledrop(){
+	  this.toggle=!this.toggle;
+  }
 }

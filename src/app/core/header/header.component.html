@@ -1,4 +1,4 @@
-<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse fixed-top">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
   <button class="navbar-toggler navbar-toggler-right" type="button" (click)="onToggle()">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -26,12 +26,14 @@
         <li *ngIf="isAuthenticated()" class="nav-item">
           <a style="cursor: pointer" (click)="onLogout()" class="nav-link">Logout</a>
         </li>
-        <li class="dropdown" appDropdown *ngIf="isAuthenticated()">
-          <a style="cursor: pointer" class="dropdown-toggle nav-link open" role="button">Manage</a>
-          <ul class="dropdown-menu dropdown-menu-right">
-            <li class="dropdown-item"><a style="cursor: pointer" (click)="onSave()">Save Data</a></li>
-            <li class="dropdown-item"><a style="cursor: pointer" (click)="onFetch()">Fetch Data</a></li>
-          </ul>
+        <li class="nav-item dropdown" [ngClass]="{'show':this.toggleDrop}" *ngIf="isAuthenticated()">
+          <a style="cursor: pointer" class="nav-link dropdown-toggle" role="button" (click)="onDropToggle()">
+            Manage
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" [ngClass]="{'show':this.toggleDrop}">
+            <a style="cursor: pointer" class="dropdown-item" (click)="onSave()">Save Data</a>
+            <a style="cursor: pointer" class="dropdown-item" (click)="onFetch()">Fetch Data</a>
+          </div>
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">

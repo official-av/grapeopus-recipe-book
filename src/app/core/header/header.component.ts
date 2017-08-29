@@ -15,6 +15,7 @@ import { Router } from '@angular/router';
    @ViewChild('nav') el:ElementRef;
    search=false;
    toggle=false;
+   toggleDrop=false;
 	 recipes=[];
 
 	 constructor(private recSvc:RecipeService,private serverSvc:ServerService,private authSvc:AuthService,private router:Router,private renderer:Renderer2){}
@@ -44,4 +45,8 @@ import { Router } from '@angular/router';
 
 	 onToggle(){this.toggle=!this.toggle;
      }
+
+   onDropToggle(){
+	   this.toggleDrop=!this.toggleDrop;
+   }
  }
