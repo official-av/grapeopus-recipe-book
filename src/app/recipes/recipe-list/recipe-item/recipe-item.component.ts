@@ -1,6 +1,6 @@
 import { Component, OnInit,Input} from '@angular/core';
 import {Recipe} from '../../recipe.model';
-import {RecipeService} from '../../recipes.service';
+import {ServerService} from "../../../server.service";
 
 @Component({
   selector: 'app-recipe-item',
@@ -10,6 +10,11 @@ import {RecipeService} from '../../recipes.service';
 export class RecipeItemComponent implements OnInit {
 	@Input('curRecipe') recipe:Recipe;
 	@Input() index:number;
+	constructor(private serverSvc:ServerService) {}
   ngOnInit() {
+  }
+
+  storeRecId(){
+    this.serverSvc.setRecipeId(this.recipe._id);
   }
 }

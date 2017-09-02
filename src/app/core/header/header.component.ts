@@ -15,27 +15,18 @@ import { Router } from '@angular/router';
    @ViewChild('nav') el:ElementRef;
    search=false;
    toggle=false;
+   toggleDrop=false;
 	 recipes=[];
 
 	 constructor(private recSvc:RecipeService,private serverSvc:ServerService,private authSvc:AuthService,private router:Router,private renderer:Renderer2){}
 	 onSave(){
-		 this.recipes=this.recSvc.getRecipes();
-		 this.serverSvc.saveRecipes(this.recipes).subscribe(
-			 (response)=>console.log(response),
-		 (error)=>console.log(error));
 	 }
 
-	 onFetch(){
-		 this.serverSvc.getRecipes().subscribe(
-		 (recipes:Recipe[])=>{
-			 this.recipes=recipes;
-			 this.recSvc.addRecipes(this.recipes);
-		 });
-
-	 }
+	 onFetch(){}
 
 	 onLogout(){
 		 this.authSvc.logout();
+		 this.router.navigateByUrl('/');
 	 }
 
 	 isAuthenticated(){
@@ -44,4 +35,8 @@ import { Router } from '@angular/router';
 
 	 onToggle(){this.toggle=!this.toggle;
      }
+
+   onDropToggle(){
+	   this.toggleDrop=!this.toggleDrop;
+   }
  }

@@ -8,10 +8,14 @@ import { AuthModule } from './auth/auth.module';
 
 import { AppComponent } from './app.component';
 import { FooterComponent } from './footer/footer.component';
+import { ErrorComponent } from './errors/error/error.component';
+import {ErrorService} from "./errors/error.service";
+
 @NgModule({
   declarations: [
     AppComponent,
-    FooterComponent
+    FooterComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -21,7 +25,7 @@ import { FooterComponent } from './footer/footer.component';
 		AuthModule,
 		CoreModule
   ],
-  providers: [],
+  providers: [ErrorService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

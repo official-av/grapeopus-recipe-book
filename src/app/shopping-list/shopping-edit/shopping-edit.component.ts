@@ -4,6 +4,7 @@ import {Subscription} from 'rxjs/Subscription';
 
 import {ingredient} from '../../shared/ingredient.model';
 import {ShoppingListService} from '../shopping-list.service';
+import {AuthService} from "../../auth/auth.service";
 
 @Component({
   selector: 'app-shopping-edit',
@@ -16,7 +17,7 @@ export class ShoppingEditComponent implements OnInit,OnDestroy {
 	editMode=false;
 	itemToEdit:number;
 	editedItem:ingredient;
-  constructor(private shopListService:ShoppingListService) { }
+  constructor(private shopListService:ShoppingListService,private authSvc:AuthService) { }
 
   ngOnInit() {
 		this.subs=this.shopListService.startedEdit.subscribe(
@@ -31,14 +32,15 @@ export class ShoppingEditComponent implements OnInit,OnDestroy {
 		}
 		)
   }
-	
+
 	ngOnDestroy(){
 		this.subs.unsubscribe();
 	}
 
-	onSubmit(form:NgForm){		
+	onSubmit(form:NgForm){
 		const value=form.value;
-		const newIngredient=new ingredient(value.name,value.amount);
+		const belongsTo=this.authSvc.getUID();
+		const newIngredient=new ingredient(value.name,value.amount,null,belongsTo);
 		if(this.editMode){
 			this.shopListService.updateIngredient(this.itemToEdit,newIngredient);
 		} else {
@@ -47,14 +49,14 @@ export class ShoppingEditComponent implements OnInit,OnDestroy {
 		form.reset();
 			this.editMode=false;
 	}
-	
+
 	onClear(){
 		this.shopForm.reset();
 		this.editMode=false;
 	}
-	
+
 	onDelete(){
-		this.shopListService.removeIngredient(this.itemToEdit);		
+		this.shopListService.removeIngredient(this.itemToEdit);
 		this.onClear();
 	}
 }

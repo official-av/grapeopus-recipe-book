@@ -10,6 +10,7 @@ import { RecipeStartComponent } from './recipe-start/recipe-start.component';
 import { RecipeEditComponent } from './recipe-edit/recipe-edit.component';
 import { RecipesRoutingModule } from './recipes-routing.module';
 import { SharedModule } from '../shared/shared.module';
+
 @NgModule({
 	declarations:[
 		RecipesComponent,
@@ -27,8 +28,8 @@ import { SharedModule } from '../shared/shared.module';
 	],
 	providers:[],
 	bootstrap:[RecipesComponent]
-	
+
 })
 export class RecipesModule{
-	
+
 }

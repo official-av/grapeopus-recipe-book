@@ -1,42 +1,42 @@
-import * as firebase from 'firebase';
 import {Router} from '@angular/router';
 import {Injectable} from '@angular/core';
+import { Http,Headers,Response } from '@angular/http';
+
 @Injectable()
 export class AuthService{
 	token:string;
-	
-	constructor(private router:Router){}
-	signUpUser(email:string,password:string){
-		firebase.auth().createUserWithEmailAndPassword(email,password).catch(
-		(error)=>{console.log(error);}
-		);
+
+	constructor(private router:Router,private http:Http){}
+	signUpUser(user:any){
+	  return this.http.post('http://localhost:3000/users/register',user).map(
+      (response:Response)=>response.json(),
+    (error:Response)=> error.json()
+    );
 	}
-	
+
 	signinUser(email:string,password:string){
-		firebase.auth().signInWithEmailAndPassword(email,password).then(
-		(response)=> {
-			firebase.auth().currentUser.getToken().then(
-				(token:string)=>{
-					this.token=token;
-				this.router.navigate(['/recipes']);
-				}
-			)
-		}).catch(
-		(error)=>console.log(error));
+	  const user={username:email,password:password};
+		return this.http.post('http://localhost:3000/users/login',user).map(
+      (response:Response)=>response.json(),
+      (error:Response)=>error.json()
+    );
 	}
-	
-	getTk(){
-	 firebase.auth().currentUser.getToken().then((token:string)=>this.token=token);
+
+
+  getTk(){
+	 this.token=localStorage.getItem('token');
 		return this.token;
 	}
-	
+
+	getUID(){
+    return localStorage.getItem('userId');
+  }
+
 	isAuthenticated(){
-		return this.token !=null;
+		return localStorage.getItem('token')!==null;
 	}
-	
+
 	logout(){
-		firebase.auth().signOut();
-		this.token=null;
-		 this.router.navigate(['/signin']);
+		localStorage.clear();
 	}
 }

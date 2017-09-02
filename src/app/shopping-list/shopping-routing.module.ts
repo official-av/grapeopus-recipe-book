@@ -10,5 +10,5 @@ const shopRoute=[
 	exports:[RouterModule]
 })
 export class ShoppingRoutingModule{
-	
+
 }
