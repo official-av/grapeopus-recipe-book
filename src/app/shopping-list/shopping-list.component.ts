@@ -11,10 +11,12 @@ import {ServerService} from "../server.service";
 export class ShoppingListComponent implements OnInit,OnDestroy {
 	private subs:Subscription;
 	ingredients:ingredient[]=[];
-  constructor(private shopListService:ShoppingListService,private serverSvc:ServerService) { }
+  constructor(private shopListService:ShoppingListService,private serverSvc:ServerService) {
+    this.ingredients=this.shopListService.getIngArr();
+    this.shopListService.addIngredients(this.ingredients);
+  }
 
   ngOnInit() {
-		this.ingredients=this.shopListService.getIngArr();
 		this.subs=this.shopListService.ingredientsChanged.subscribe((ingr:ingredient[])=>{
 			this.ingredients=ingr;
 		});
@@ -22,13 +24,13 @@ export class ShoppingListComponent implements OnInit,OnDestroy {
 
 	ngOnDestroy(){
 		this.subs.unsubscribe();
+		this.ingredients=[];
 	}
 
 	onEditItem(index:number){
 	  let ingr=this.ingredients[index];
 		this.shopListService.startedEdit.next(index);
     this.serverSvc.setIngrID(ingr._id);
-    console.log(ingr._id);
 	}
 
 }

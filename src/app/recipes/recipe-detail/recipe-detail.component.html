@@ -12,14 +12,16 @@
         </div>
         <div class="col-xs-12 ml-auto">
           <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" (click)="toggledrop()" style="margin-top: 10px">Manage Recipe
+            <button class="btn btn-primary dropdown-toggle" (click)="toggledrop()" style="margin-top: 10px">Manage
+              Recipe
               <span class="caret"></span>
             </button>
-            <ul class="dropdown-menu" [ngClass]="{'show':this.toggle}">
-              <li><a (click)="addToList()" style="cursor: pointer">To Shopping list</a></li>
-              <li><a style="cursor: pointer" routerLink="edit" style="text-decoration: none">Edit Recipe</a></li>
-              <li><a style="cursor: pointer" (click)="onDelete()">Delete Recipe</a></li>
-            </ul>
+            <div class="dropdown-menu" [ngClass]="{'show':this.toggle}">
+              <a class="dropdown-item" (click)="addToList()" style="cursor: pointer">To Shopping list</a>
+              <a class="dropdown-item" style="cursor: pointer" routerLink="edit" style="text-decoration: none">Edit
+                Recipe</a>
+              <a class="dropdown-item" style="cursor: pointer" (click)="onDelete()">Delete Recipe</a>
+            </div>
           </div>
         </div>
       </div>

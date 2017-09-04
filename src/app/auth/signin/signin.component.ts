@@ -14,11 +14,11 @@ export class SigninComponent implements OnInit {
   ngOnInit() {
   }
 
-	onSignIn(form:NgForm){
+	onSubmit(form:NgForm){
 		const email=form.value.email;
 		const password=form.value.password;
 		this.authSvc.signinUser(email,password).subscribe(
-      (data)=>{console.log(data);
+      (data)=>{
         localStorage.setItem('token',data.token);
         localStorage.setItem('userId',data.userId);
         this.router.navigateByUrl('/recipes')},

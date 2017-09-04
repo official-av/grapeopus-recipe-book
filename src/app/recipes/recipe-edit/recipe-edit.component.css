@@ -2,6 +2,12 @@ input.ng-invalid.ng-touched,
 textarea.ng-invalid.ng-touched {
 	border: 1px solid red;
 }
+img {
+  max-height:100%;
+  width: 100%;
+  object-fit: contain;
+}
+
 .scroller {
   max-height:520px;
   overflow-y: auto;

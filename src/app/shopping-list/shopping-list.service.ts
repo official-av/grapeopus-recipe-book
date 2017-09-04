@@ -2,6 +2,7 @@ import { ingredient } from '../shared/ingredient.model';
 import { Subject } from 'rxjs/Subject';
 import {ServerService} from "../server.service";
 import {Injectable} from "@angular/core";
+import {ToastsManager} from "ng2-toastr";
 
 @Injectable()
 export class ShoppingListService{
@@ -9,7 +10,7 @@ export class ShoppingListService{
 	ingredientsChanged=new Subject<ingredient[]>();
 	private ingredients:ingredient[]=[];
 
-	constructor(private serverSvc:ServerService) {}
+	constructor(private serverSvc:ServerService,private toastr:ToastsManager) {}
 
 	 getIngArr() {
 	  this.serverSvc.getIngr().subscribe(
@@ -29,14 +30,18 @@ export class ShoppingListService{
 		ingr._id=this.serverSvc.getIngrID();
 		this.ingredientsChanged.next(this.ingredients.slice());
 		this.serverSvc.updateIngr(ingr).subscribe(
-		  data=>console.log('success'),
+		  data=>
+        this.toastr.success('Ingredient updated successfully!', 'Success'),
       error=>console.log(error)
     );
 	}
 
 	addIngredient(ingr:ingredient){
+    this.ingredients.push(ingr);
+    this.ingredientsChanged.next(this.ingredients.slice());
 		this.serverSvc.addIngr(ingr).subscribe(
-		  data=>console.log(data),
+		  data=>
+        this.toastr.success('Ingredient added successfully!', 'Success'),
       error=>console.log(error)
     );
 	}
@@ -50,8 +55,18 @@ export class ShoppingListService{
 		this.ingredients.splice(index,1);
 		this.ingredientsChanged.next(this.ingredients.slice());
 		this.serverSvc.deleteIngr().subscribe(
-		  data=>console.log('success'),
+		  data=>
+        this.toastr.success('Ingredient deleted successfully!', 'Success'),
       error=>console.log('failure')
     )
 	}
+
+  removeIngredients(){
+    this.ingredientsChanged.next([]);
+    this.serverSvc.deleteIngrs().subscribe(
+      data=>
+        this.toastr.success('Ingredients deleted successfully!', 'Success'),
+      error=>console.log('failure')
+    )
+  }
 }

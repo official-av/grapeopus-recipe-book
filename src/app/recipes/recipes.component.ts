@@ -1,4 +1,4 @@
-import {Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges} from '@angular/core';
+import {Component,OnDestroy, OnInit} from '@angular/core';
 import {Recipe} from "app/recipes/recipe.model";
 import {ServerService} from "../server.service";
 import {RecipeService} from "./recipes.service";
@@ -11,7 +11,8 @@ import {RecipeService} from "./recipes.service";
 export class RecipesComponent implements OnInit, OnDestroy {
   recipes=[];
 
-  constructor(private serverSvc:ServerService,private recSvc:RecipeService) {}
+  constructor(private serverSvc:ServerService,private recSvc:RecipeService) {
+  }
 
 	ngOnInit() {
     this.onFetch();
@@ -19,7 +20,6 @@ export class RecipesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(){
     //auto fetch recipes on login
-    console.log('destroyed');
     this.recSvc.removeAllRecipes();
   }
 

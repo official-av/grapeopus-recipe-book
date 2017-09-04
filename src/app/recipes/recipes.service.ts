@@ -4,63 +4,71 @@ import {ingredient} from '../shared/ingredient.model';
 import {ShoppingListService} from '../shopping-list/shopping-list.service';
 import {Subject} from 'rxjs/Subject';
 import {ServerService} from "../server.service";
+import {ToastsManager} from "ng2-toastr";
 
 @Injectable()
-export class RecipeService{
-	recipesChanged=new Subject<Recipe[]>();
+export class RecipeService {
+  recipesChanged = new Subject<Recipe[]>();
 
-	constructor(private shopListService:ShoppingListService,private serverSvc:ServerService){
+  constructor(private shopListService: ShoppingListService, private serverSvc: ServerService, private toastr: ToastsManager) {
 
-	}
+  }
 
-	addToShopList(ingrArr:ingredient[]){
-		this.shopListService.addIngredients(ingrArr);
-	}
+  addToShopList(ingrArr: ingredient[]) {
+    this.shopListService.addIngredients(ingrArr);
+  }
 
-	private recipes:Recipe[]=[];
+  private recipes: Recipe[] = [];
 
-	getRecipes(){
-		return this.recipes.slice();
-		//slice used to provide a copy of the array not the exact one
-	}
+  getRecipes() {
+    return this.recipes.slice();
+    //slice used to provide a copy of the array not the exact one
+  }
 
-	getRecipeDetails(id:number){
-		return this.recipes[id];
-	}
+  getRecipeDetails(id: number) {
+    return this.recipes[id];
+  }
 
-	addRecipe(recipe:Recipe){
-		this.recipes.push(recipe);
-		this.recipesChanged.next(this.recipes.slice());
-		this.serverSvc.addRecipe(recipe).subscribe(
-		  data=>console.log('successful'),
-		  error=>console.log(error)
+  addRecipe(recipe: Recipe) {
+    this.recipes.push(recipe);
+    this.recipesChanged.next(this.recipes.slice());
+    this.serverSvc.addRecipe(recipe).subscribe(
+      data => {
+        this.toastr.success('Recipe added successfully!', 'Success');
+      },
+      error => console.log(error)
     )
-	}
+  }
 
-	addRecipes(recipe:Recipe[]){
-		this.recipes.push(...recipe);
-		this.recipesChanged.next(this.recipes.slice());
-	}
+  addRecipes(recipe: Recipe[]) {
+    this.recipes.push(...recipe);
+    this.recipesChanged.next(this.recipes.slice());
+  }
 
-	updateRecipe(index:number,newRec:Recipe){
-		this.recipes[index]=newRec;
-		this.recipesChanged.next(this.recipes.slice());
-		this.serverSvc.updateRecipe(newRec).subscribe(
-		  data=>console.log(data),
-      error=>console.log(error)
+  updateRecipe(index: number, newRec: Recipe) {
+    this.recipes[index] = newRec;
+    this.recipesChanged.next(this.recipes.slice());
+    this.serverSvc.updateRecipe(newRec).subscribe(
+      data => {
+        this.toastr.success('Recipe updated successfully!', 'Success');
+        console.log(data);
+      },
+      error => console.log(error)
     )
-	}
+  }
 
-	removeRecipe(index:number){
-		this.recipes.splice(index,1);
-		this.recipesChanged.next(this.recipes.slice());
-		this.serverSvc.deleteRecipe().subscribe(
-		  data=>console.log(data),
-      error=>console.log(error)
+  removeRecipe(index: number) {
+    this.recipes.splice(index, 1);
+    this.recipesChanged.next(this.recipes.slice());
+    this.serverSvc.deleteRecipe().subscribe(
+      data => {
+        this.toastr.success('Recipe deleted successfully!', 'Success');
+      },
+      error => console.log(error)
     );
-	}
+  }
 
-	removeAllRecipes(){
-	  this.recipes=[];
+  removeAllRecipes() {
+    this.recipes = [];
   }
 }

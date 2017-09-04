@@ -1,14 +1,17 @@
-import { Component,OnInit } from '@angular/core';
-import * as firebase from 'firebase';
+import {Component, OnInit, ViewContainerRef} from '@angular/core';
+import {ToastsManager} from 'ng2-toastr/ng2-toastr';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent implements OnInit {
-	ngOnInit(){
-		
-firebase.initializeApp({apiKey: "AIzaSyCPJoLLk0e67tilutPMTk-kylyCo4ER3yU",
-    authDomain: "av-recipe-book.firebaseapp.com"});
-	}
+  constructor(public toastr: ToastsManager, vRef: ViewContainerRef) {
+    this.toastr.setRootViewContainerRef(vRef);
+  }
+
+  ngOnInit() {
+  }
 }

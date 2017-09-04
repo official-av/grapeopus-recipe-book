@@ -1,7 +1,10 @@
-<a style="cursor: pointer" class="list-group-item clearfix" [routerLink]="[index]" routerLinkActive="active" (click)="storeRecId()">
-	<div class="mr-auto">
-		<h4 class="mb-1">{{recipe.name}}</h4><br>
-		<p class="mb-1">{{recipe.description}}</p>
-	</div>
-	<span class="ml-auto"><img [src]="recipe.imagePath" alt="" class="img-fluid" style="max-height:50px"></span>
+<a style="cursor: pointer" class="list-group-item list-group-item-action flex-column align-items-start clearfix"
+   [routerLink]="[index]" routerLinkActive="active" (click)="storeRecId()">
+  <div class=" clearfix" style="display: inline-block">
+    <div class="justify-content-between">
+      <h5 class="mb-1 float-left">{{recipe.name}}</h5>
+    </div>
+    <p class="mb-1 float-left">{{recipe.description}}</p>
+  </div>
+  <span class="float-right"><img [src]="recipe.imagePath" alt="" class="img-fluid" style="max-height:50px"></span>
 </a>

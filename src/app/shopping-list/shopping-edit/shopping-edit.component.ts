@@ -17,6 +17,7 @@ export class ShoppingEditComponent implements OnInit,OnDestroy {
 	editMode=false;
 	itemToEdit:number;
 	editedItem:ingredient;
+	units=['pcs','mg','tbsp','tsp','cups'];
   constructor(private shopListService:ShoppingListService,private authSvc:AuthService) { }
 
   ngOnInit() {
@@ -27,7 +28,8 @@ export class ShoppingEditComponent implements OnInit,OnDestroy {
 			this.editedItem=this.shopListService.getIngredient(index);
 			this.shopForm.setValue({
 				'name':this.editedItem.name,
-				'amount':this.editedItem.amount
+				'amount':this.editedItem.amount,
+        'unit':this.editedItem.unit
 			});
 		}
 		)
@@ -40,7 +42,7 @@ export class ShoppingEditComponent implements OnInit,OnDestroy {
 	onSubmit(form:NgForm){
 		const value=form.value;
 		const belongsTo=this.authSvc.getUID();
-		const newIngredient=new ingredient(value.name,value.amount,null,belongsTo);
+		const newIngredient=new ingredient(value.name,value.amount,null,belongsTo,value.unit);
 		if(this.editMode){
 			this.shopListService.updateIngredient(this.itemToEdit,newIngredient);
 		} else {
@@ -59,4 +61,9 @@ export class ShoppingEditComponent implements OnInit,OnDestroy {
 		this.shopListService.removeIngredient(this.itemToEdit);
 		this.onClear();
 	}
+
+	deleteAll(){
+    this.shopListService.removeIngredients();
+    this.onClear();
+  }
 }

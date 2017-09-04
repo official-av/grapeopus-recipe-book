@@ -19,10 +19,6 @@ import { Router } from '@angular/router';
 	 recipes=[];
 
 	 constructor(private recSvc:RecipeService,private serverSvc:ServerService,private authSvc:AuthService,private router:Router,private renderer:Renderer2){}
-	 onSave(){
-	 }
-
-	 onFetch(){}
 
 	 onLogout(){
 		 this.authSvc.logout();
