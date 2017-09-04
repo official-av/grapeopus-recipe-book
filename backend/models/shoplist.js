@@ -3,7 +3,8 @@ var Schema=mongoose.Schema;
 var IngrList=new Schema({
   name:String,
   amount:Number,
-  belongsTo:String
+  belongsTo:String,
+  unit:String
 },{  timestamps: true
 });
 

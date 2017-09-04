@@ -4,12 +4,15 @@ var User = require('../models/user');
 var passport = require('passport');
 var Verify=require('../verify');
 
-router.route('/').get(Verify.verifyOrdinaryUser,function (req,res,next) {
+router.route('/').get(/*admin verify*/Verify.verifyOrdinaryUser,function (req,res,next) {
   User.find({})
     .exec(
       function (err, user) {
         if (err) {
-          return res.send();
+          return res.status(500).json({
+          title: 'Couldn\'t fetch the Users!',
+          error: err
+        });
         }
         res.json(user);
       });
@@ -21,8 +24,9 @@ router.route('/register').post(function(req, res, next) {
   }),req.body.password,function (err, user) {
     if (err) {
       return res.status(500).json({
-        err: err
-      });
+      title: 'Registration Failed',
+      error: err
+    });
     }
     if (req.body.firstname) {
       user.firstname = req.body.firstname;
@@ -45,21 +49,26 @@ router.route('/register').post(function(req, res, next) {
 router.route('/login').post(function (req,res,next) {
   passport.authenticate('local', function (err, user, info) {
     if (err) {
-      return next(err);
-    }
-    if (!user) {
       return res.status(401).json({
-        err: info
+        title: 'Login Failed !',
+        error: {message: 'Invalid login credentials'}
       });
     }
+    if (!user) {
+        return res.status(401).json({
+          title: 'Login Failed !',
+          error: {message: 'Invalid login credentials'}
+        });
+      }
     req.logIn(user, function (err) {
       if (err) {
         return res.status(500).json({
-          err: 'couldn\'t login the user'
+          title: 'Login Failed !',
+          error: {message: 'Invalid login credentials'}
         });
-      }
+      }/*
       console.log('User in users: ', user);
-
+*/
       var token = Verify.getToken(user);
       res.status(200).json({
         status: 'Login Successful',
