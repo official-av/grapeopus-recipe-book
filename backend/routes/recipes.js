@@ -12,8 +12,8 @@ router.route('/').post(Verify.verifyOrdinaryUser,function (req, res, next) {
         error: err
       });
     }
-    res.writeHead(200, {
-      'Content-Type': 'text/plain'
+    return res.status(200).json({
+      status: 'Added recipe'
     });
   })
 }).delete(Verify.verifyOrdinaryUser,function (req, res, next) {

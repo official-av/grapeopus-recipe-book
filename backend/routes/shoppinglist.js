@@ -12,10 +12,12 @@ router.route('/').post(Verify.verifyOrdinaryUser, function (req, res, next) {
         error: err
       });
     }
-    res.writeHead(200, {
-      'Content-Type': 'text/plain'
+    if(ingredient){var id= ingredient._id;}
+
+    return res.status(200).json({
+      status: 'Added ingredient',
+      ingrID: id
     });
-    res.end('Added the ingredient');
   })
 });
 
@@ -37,7 +39,7 @@ router.route('/:ingrID').put(Verify.verifyOrdinaryUser, function (req, res, next
 })
 //route for deleting ingredient with ingrID
   .delete(Verify.verifyOrdinaryUser, function (req, res, next) {
-    IngrList.remove({'belongsTo': req.params.userID}, function (err, resp) {
+    IngrList.remove({'_id': req.params.ingrID}, function (err, resp) {
       if (err) {
         return res.status(500).json({
           title: 'Couldn\'t delete the ingredients!',
@@ -61,5 +63,16 @@ router.route('/:userID').get(Verify.verifyOrdinaryUser, function (req, res, next
         res.json(recipe);
       });
 });
+
+router.route('/all/:userID').delete(Verify.verifyOrdinaryUser,function (req,res,next) {
+  IngrList.remove({'belongsTo': req.params.userID}, function (err, resp) {
+    if (err) {
+      return res.status(500).json({
+        title: 'Couldn\'t delete the ingredients!',
+        error: err
+      });
+    }
+    res.json(resp);
+  })})
 
 module.exports = router;
