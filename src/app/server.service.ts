@@ -107,7 +107,7 @@ export class ServerService {
   updateIngr(ingr: ingredient) {
     const authToken = this.authService.getTk();
     const headers = new Headers({'x-access-token': authToken});
-    return this.http.put('http://localhost:3000/shopList/' + ingr._id, ingr, {headers: headers}).map(
+    return this.http.put('http://localhost:3000/shopList/' + ingr.ingrid, ingr, {headers: headers}).map(
       (response: Response) => response.json()
     ).catch((error: Response) => {
       this.errorService.handleError(error.json());
@@ -130,7 +130,7 @@ export class ServerService {
     const authToken = this.authService.getTk();
     const headers = new Headers({'x-access-token': authToken});
     const uid = this.authService.getUID();
-    return this.http.delete('http://localhost:3000/shopList/' + uid, {headers: headers}).map(
+    return this.http.delete('http://localhost:3000/shopList/all/'+uid, {headers: headers}).map(
       (response: Response) => response.json()).catch((error: Response) => {
       this.errorService.handleError(error.json());
       return Observable.throw(error.json());

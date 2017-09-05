@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Recipe} from './recipe.model';
 import {ingredient} from '../shared/ingredient.model';
-import {ShoppingListService} from '../shopping-list/shopping-list.service';
 import {Subject} from 'rxjs/Subject';
 import {ServerService} from "../server.service";
 import {ToastsManager} from "ng2-toastr";
@@ -10,12 +9,8 @@ import {ToastsManager} from "ng2-toastr";
 export class RecipeService {
   recipesChanged = new Subject<Recipe[]>();
 
-  constructor(private shopListService: ShoppingListService, private serverSvc: ServerService, private toastr: ToastsManager) {
+  constructor( private serverSvc: ServerService, private toastr: ToastsManager) {
 
-  }
-
-  addToShopList(ingrArr: ingredient[]) {
-    this.shopListService.addIngredients(ingrArr);
   }
 
   private recipes: Recipe[] = [];

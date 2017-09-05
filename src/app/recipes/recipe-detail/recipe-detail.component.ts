@@ -5,7 +5,8 @@ import {RecipeService} from '../recipes.service';
 import {ShoppingRoutingModule} from "../../shopping-list/shopping-routing.module";
 import {ShoppingListService} from "../../shopping-list/shopping-list.service";
 import {AuthService} from "../../auth/auth.service";
-import {ingredient} from "../../shared/ingredient.model";
+import {Store} from "@ngrx/store";
+import * as fromShoppingList from '../../shopping-list/store/shopping-list.reducers';
 
 @Component({
   selector: 'app-recipe-detail',
@@ -17,7 +18,7 @@ export class RecipeDetailComponent implements OnInit {
   recId: number;
   toggle = false;
 
-  constructor(private recpService: RecipeService, private route: ActivatedRoute, private router: Router, private shopListService: ShoppingListService, private authSvc: AuthService) {
+  constructor(private recpService: RecipeService, private route: ActivatedRoute, private router: Router, private shopListService: ShoppingListService, private authSvc: AuthService,private store:Store<fromShoppingList.AppState>) {
   }
 
   ngOnInit() {
@@ -34,7 +35,7 @@ export class RecipeDetailComponent implements OnInit {
     for (let ingredient of this.recipeDetails.ingredients) {
       ingredient.belongsTo = this.authSvc.getUID();
       this.shopListService.addIngredient(ingredient);
-    }
+  }
   }
 
   onDelete() {

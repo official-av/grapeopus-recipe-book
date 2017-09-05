@@ -1,36 +1,44 @@
 import { Component, OnInit,OnDestroy } from '@angular/core';
 import {ingredient} from '../shared/ingredient.model';
 import {ShoppingListService} from './shopping-list.service';
-import {Subscription} from 'rxjs/Subscription';
 import {ServerService} from "../server.service";
+import {Store} from '@ngrx/store';
+import {Observable} from "rxjs/Observable";
+import * as fromShoppingList from '../shopping-list/store/shopping-list.reducers';
+import * as ShoppingListActions from "./store/shopping-list.actions";
+
 @Component({
   selector: 'app-shopping-list',
   templateUrl: './shopping-list.component.html',
   styleUrls: ['./shopping-list.component.css']
 })
+
 export class ShoppingListComponent implements OnInit,OnDestroy {
-	private subs:Subscription;
-	ingredients:ingredient[]=[];
-  constructor(private shopListService:ShoppingListService,private serverSvc:ServerService) {
-    this.ingredients=this.shopListService.getIngArr();
-    this.shopListService.addIngredients(this.ingredients);
-  }
+	ShopListState:Observable<{ingredients:ingredient[]}>;
+  IngrArr:ingredient[];
+  ingrID:string;
+
+  constructor(private shopListService:ShoppingListService,private serverSvc:ServerService,private store:Store<fromShoppingList.AppState>) {}
 
   ngOnInit() {
-		this.subs=this.shopListService.ingredientsChanged.subscribe((ingr:ingredient[])=>{
-			this.ingredients=ingr;
-		});
+    if(localStorage.getItem('firstLogin')==='true'){
+    this.IngrArr=this.shopListService.getIngArr();
+    }
+    this.ShopListState=this.store.select('shoppingList');
   }
 
 	ngOnDestroy(){
-		this.subs.unsubscribe();
-		this.ingredients=[];
+    localStorage.setItem('firstLogin','false');
 	}
 
 	onEditItem(index:number){
-	  let ingr=this.ingredients[index];
+    this.store.dispatch(new ShoppingListActions.StartEdit(index));
+    this.ShopListState.subscribe(
+	    data=>{this.ingrID=data.ingredients[index].ingrid;
+        return;}
+    ).unsubscribe();
 		this.shopListService.startedEdit.next(index);
-    this.serverSvc.setIngrID(ingr._id);
+    this.serverSvc.setIngrID(this.ingrID);
 	}
 
 }

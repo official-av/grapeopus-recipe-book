@@ -1,5 +1,5 @@
 export class ingredient{
-	constructor(public name:string,public amount:number,public _id:string,public belongsTo:string,public unit:string){	}
+	constructor(public name:string,public amount:number,public ingrid:string,public belongsTo:string,public unit:string){	}
 }
 //same as
 //export class ingredient{

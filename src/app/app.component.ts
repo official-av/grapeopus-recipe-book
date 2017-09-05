@@ -10,6 +10,7 @@ import {ToastsManager} from 'ng2-toastr/ng2-toastr';
 export class AppComponent implements OnInit {
   constructor(public toastr: ToastsManager, vRef: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vRef);
+    localStorage.setItem('firstLogin','true');
   }
 
   ngOnInit() {

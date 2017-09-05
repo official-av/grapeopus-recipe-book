@@ -5,8 +5,9 @@ import { CoreModule } from './core/core.module';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/shared.module';
 import { AuthModule } from './auth/auth.module';
+import { StoreModule } from '@ngrx/store';
 import { NgProgressModule,NgProgressBrowserXhr } from 'ngx-progressbar';
-
+import { ShoppingListReducer} from "./shopping-list/store/shopping-list.reducers";
 import { AppComponent } from './app.component';
 import { FooterComponent } from './footer/footer.component';
 import { ErrorComponent } from './errors/error/error.component';
@@ -32,7 +33,8 @@ import { LoadersCssModule } from 'angular2-loaders-css';
 		CoreModule,
     NgProgressModule,
     ToastModule.forRoot(),
-    LoadersCssModule
+    LoadersCssModule,
+    StoreModule.forRoot({shoppingList:ShoppingListReducer},)
   ],
   providers: [ErrorService,{provide: BrowserXhr, useClass: NgProgressBrowserXhr}],
   bootstrap: [AppComponent]

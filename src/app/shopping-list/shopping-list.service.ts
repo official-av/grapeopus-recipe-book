@@ -3,6 +3,9 @@ import { Subject } from 'rxjs/Subject';
 import {ServerService} from "../server.service";
 import {Injectable} from "@angular/core";
 import {ToastsManager} from "ng2-toastr";
+import {Store} from "@ngrx/store";
+import * as ShopListActions from './store/shopping-list.actions';
+import * as fromShoppingList from '../shopping-list/store/shopping-list.reducers';
 
 @Injectable()
 export class ShoppingListService{
@@ -10,53 +13,46 @@ export class ShoppingListService{
 	ingredientsChanged=new Subject<ingredient[]>();
 	private ingredients:ingredient[]=[];
 
-	constructor(private serverSvc:ServerService,private toastr:ToastsManager) {}
+	constructor(private serverSvc:ServerService,private toastr:ToastsManager,private store:Store<fromShoppingList.AppState>) {}
 
 	 getIngArr() {
 	  this.serverSvc.getIngr().subscribe(
       (ingr:ingredient[])=>{
-        this.ingredients=ingr},
+        this.ingredients=ingr;
+        this.store.dispatch(new ShopListActions.AddIngredients(ingr));
+        },
       error=>console.log(error)
     )
 		return this.ingredients.slice();
 	 }
 
-	getIngredient(index:number){
-		return this.ingredients[index];
-	}
+  addIngredient(ingr:ingredient){
+    this.serverSvc.addIngr(ingr).subscribe(
+      data=>{
+        ingr.ingrid=data.ingrID;
+        this.store.dispatch(new ShopListActions.AddIngredient(ingr));
+        this.toastr.success('Ingredient added successfully!', 'Success')},
+      error=>console.log(error)
+    );
+  }
 
 	updateIngredient(index:number,ingr:ingredient){
 		this.ingredients[index]=ingr;
-		ingr._id=this.serverSvc.getIngrID();
+		ingr.ingrid=this.serverSvc.getIngrID();
 		this.ingredientsChanged.next(this.ingredients.slice());
 		this.serverSvc.updateIngr(ingr).subscribe(
-		  data=>
-        this.toastr.success('Ingredient updated successfully!', 'Success'),
+		  data=>{
+		    this.store.dispatch(new ShopListActions.UpdateIngredient({ingredient:ingr}));
+        this.toastr.success('Ingredient updated successfully!', 'Success')},
       error=>console.log(error)
     );
-	}
-
-	addIngredient(ingr:ingredient){
-    this.ingredients.push(ingr);
-    this.ingredientsChanged.next(this.ingredients.slice());
-		this.serverSvc.addIngr(ingr).subscribe(
-		  data=>
-        this.toastr.success('Ingredient added successfully!', 'Success'),
-      error=>console.log(error)
-    );
-	}
-
-	addIngredients(ingrArr:ingredient[]){
-		this.ingredients.push(...ingrArr);
-		this.ingredientsChanged.next(this.ingredients.slice());
 	}
 
 	removeIngredient(index:number){
-		this.ingredients.splice(index,1);
-		this.ingredientsChanged.next(this.ingredients.slice());
 		this.serverSvc.deleteIngr().subscribe(
-		  data=>
-        this.toastr.success('Ingredient deleted successfully!', 'Success'),
+		  data=>{
+		    this.store.dispatch(new ShopListActions.DeleteIngredient());
+        this.toastr.success('Ingredient deleted successfully!', 'Success')},
       error=>console.log('failure')
     )
 	}
@@ -64,8 +60,9 @@ export class ShoppingListService{
   removeIngredients(){
     this.ingredientsChanged.next([]);
     this.serverSvc.deleteIngrs().subscribe(
-      data=>
-        this.toastr.success('Ingredients deleted successfully!', 'Success'),
+      data=>{
+        this.store.dispatch(new ShopListActions.DeleteIngredients());
+        this.toastr.success('Ingredients deleted successfully!', 'Success');},
       error=>console.log('failure')
     )
   }

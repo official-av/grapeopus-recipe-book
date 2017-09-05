@@ -10,6 +10,7 @@ import {Recipe} from '../recipe.model';
   styleUrls: ['./recipe-edit.component.css']
 })
 export class RecipeEditComponent implements OnInit {
+  units=['pcs','mg','tbsp','tsp','cups'];
 	id:number;
 	editMode=false;
 	recipeForm:FormGroup;
@@ -40,6 +41,7 @@ export class RecipeEditComponent implements OnInit {
 					this.recIngredients.push(new FormGroup({
 						'name':new FormControl(ingr.name,Validators.required),
 						'amount':new FormControl(ingr.amount,[Validators.required,Validators.pattern(/^[1-9]+[0-9]*$/)]),
+						'unit':new FormControl(ingr.unit,[Validators.required]),
 					}))
 				}
 			}
