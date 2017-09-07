@@ -17,7 +17,7 @@ router.route('/').post(Verify.verifyOrdinaryUser, function (req, res, next) {
     return res.status(200).json({
       status: 'Added ingredient',
       ingrID: id
-    });
+    }).end();
   })
 });
 

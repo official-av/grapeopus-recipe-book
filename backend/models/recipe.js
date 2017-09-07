@@ -2,7 +2,8 @@ var mongoose=require('mongoose');
 var Schema=mongoose.Schema;
 var IngredientSchema=new Schema({
   name:String,
-  amount:Number
+  amount:Number,
+  unit:String
 });
 
 var recipe=new Schema({

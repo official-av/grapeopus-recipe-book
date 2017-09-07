@@ -16,8 +16,10 @@ exports.verifyOrdinaryUser = function (req, res, next) {
     // verifies secret and checks exp
     jwt.verify(token, config.secretKey, function (err, decoded) {
       if (err) {
-        var err = new Error('You are not authenticated!');
-        err.status = 401;
+        res.status(403).json({
+          title: 'Session expired!',
+          error: {message:'Please logout and login again..'}
+        });
         return next(err);
       } else {
         // if everything is good, save to request for use in other routes

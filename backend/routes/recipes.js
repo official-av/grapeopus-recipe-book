@@ -12,9 +12,12 @@ router.route('/').post(Verify.verifyOrdinaryUser,function (req, res, next) {
         error: err
       });
     }
+
+    if(recipe){var id= recipe._id;}
     return res.status(200).json({
-      status: 'Added recipe'
-    });
+      status: 'Added recipe',
+      recID:id
+    }).end();
   })
 }).delete(Verify.verifyOrdinaryUser,function (req, res, next) {
   Recipe.remove({}, function (err, resp) {
