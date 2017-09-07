@@ -11,6 +11,7 @@ export class AppComponent implements OnInit {
   constructor(public toastr: ToastsManager, vRef: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vRef);
     localStorage.setItem('firstLogin','true');
+    localStorage.setItem('firstLoginRecipe','true');
   }
 
   ngOnInit() {

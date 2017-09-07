@@ -4,12 +4,15 @@ import {ingredient} from '../shared/ingredient.model';
 import {Subject} from 'rxjs/Subject';
 import {ServerService} from "../server.service";
 import {ToastsManager} from "ng2-toastr";
-
+import * as fromRecipe from './store/recipe.reducers';
+import {Store} from "@ngrx/store";
+import * as RecipeActions from './store/recipe.actions';
+import {AuthService} from "../auth/auth.service";
 @Injectable()
 export class RecipeService {
   recipesChanged = new Subject<Recipe[]>();
 
-  constructor( private serverSvc: ServerService, private toastr: ToastsManager) {
+  constructor( private serverSvc: ServerService, private toastr: ToastsManager,private store:Store<fromRecipe.State>,private authSvc:AuthService) {
 
   }
 
@@ -27,12 +30,16 @@ export class RecipeService {
   addRecipe(recipe: Recipe) {
     this.recipes.push(recipe);
     this.recipesChanged.next(this.recipes.slice());
+    console.log('subs');
     this.serverSvc.addRecipe(recipe).subscribe(
       data => {
+        recipe.recID=data.recID;
+        recipe.addedBy=this.authSvc.getUID();
+        this.store.dispatch(new RecipeActions.AddRecipe(recipe));
         this.toastr.success('Recipe added successfully!', 'Success');
       },
       error => console.log(error)
-    )
+    );
   }
 
   addRecipes(recipe: Recipe[]) {
@@ -45,6 +52,7 @@ export class RecipeService {
     this.recipesChanged.next(this.recipes.slice());
     this.serverSvc.updateRecipe(newRec).subscribe(
       data => {
+        this.store.dispatch(new RecipeActions.UpdateRecipe({index:index,updatedRecipe:newRec}));
         this.toastr.success('Recipe updated successfully!', 'Success');
         console.log(data);
       },
@@ -57,6 +65,7 @@ export class RecipeService {
     this.recipesChanged.next(this.recipes.slice());
     this.serverSvc.deleteRecipe().subscribe(
       data => {
+        this.store.dispatch(new RecipeActions.DeleteRecipe(index));
         this.toastr.success('Recipe deleted successfully!', 'Success');
       },
       error => console.log(error)

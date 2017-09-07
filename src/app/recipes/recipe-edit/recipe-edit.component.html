@@ -1,4 +1,4 @@
-<div class="card scroller">
+<div class="container"><div class="card scroller">
   <div class="card-body">
     <div class="container-fluid">
       <div class="row">
@@ -52,7 +52,7 @@
                     <input type="number" class="form-control" formControlName="amount">
                   </div>
                   <div class="col-xs-2 col-md-2">
-                    <select class="custom-select mb-2 mr-sm-2 mb-sm-0" Class="form-control" id="unit" [formControlName]="'unit'" required name="unit">
+                    <select class="custom-select mb-2 mr-sm-2 mb-sm-0" Class="form-control" id="unit" [formControlName]="'unit'" name="unit">
                       <option *ngFor="let unit of units" [value]="unit">{{unit}}</option>
                     </select>
                   </div>
@@ -75,4 +75,5 @@
     </div>
 
   </div>
+</div>
 </div>

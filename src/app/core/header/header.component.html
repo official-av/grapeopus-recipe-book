@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-  <button class="navbar-toggler navbar-toggler-right" type="button" (click)="onToggle()">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" (clickOutside)="this.toggle=false">
+  <button class="navbar-toggler navbar-toggler-right" type="button" (click)="onToggle()" >
     <span class="navbar-toggler-icon"></span>
   </button>
   <a class="navbar-brand" routerLink="/">

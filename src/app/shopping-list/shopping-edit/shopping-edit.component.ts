@@ -6,7 +6,7 @@ import {ShoppingListService} from '../shopping-list.service';
 import {AuthService} from "../../auth/auth.service";
 import {Store} from '@ngrx/store';
 import * as ShoppingListActions from '../store/shopping-list.actions';
-import * as fromShoppingList from '../store/shopping-list.reducers';
+import * as fromApp from '../../store/app.reducers';
 
 @Component({
   selector: 'app-shopping-edit',
@@ -22,7 +22,7 @@ export class ShoppingEditComponent implements OnInit,OnDestroy {
 	editedItem:ingredient;
 	units=['pcs','mg','tbsp','tsp','cups'];
 
-  constructor(private shopListService:ShoppingListService,private authSvc:AuthService,private store:Store<fromShoppingList.AppState>) { }
+  constructor(private shopListService:ShoppingListService,private authSvc:AuthService,private store:Store<fromApp.AppState>) { }
 
   ngOnInit() {
     this.subs=this.store.select('shoppingList').subscribe(
@@ -65,6 +65,7 @@ export class ShoppingEditComponent implements OnInit,OnDestroy {
 	}
 
 	onDelete(){
+	  console.log(this.itemToEdit);
 		this.shopListService.removeIngredient(this.itemToEdit);
 		this.onClear();
 	}

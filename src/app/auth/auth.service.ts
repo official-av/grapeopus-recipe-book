@@ -14,7 +14,7 @@ export class AuthService {
   }
 
   signUpUser(user: any) {
-    return this.http.post('http://localhost:3000/users/register', user).map(
+    return this.http.post('http://Grapeopus-env.nty2pagqgi.ap-south-1.elasticbeanstalk.com/users/register', user).map(
       (response: Response) => {
         this.toastr.success('Registration Successful','Success');
         response.json();
@@ -26,7 +26,7 @@ export class AuthService {
 
   signinUser(email: string, password: string) {
     const user = {username: email, password: password};
-    return this.http.post('http://localhost:3000/users/login', user).map(
+    return this.http.post('http://Grapeopus-env.nty2pagqgi.ap-south-1.elasticbeanstalk.com/users/login', user).map(
       (response: Response) =>
         response.json()).catch((error: Response) => {
       this.errorService.handleError(error.json());
@@ -49,6 +49,7 @@ export class AuthService {
   }
 
   logout() {
+    console.log('bye');
     localStorage.clear();
   }
 }

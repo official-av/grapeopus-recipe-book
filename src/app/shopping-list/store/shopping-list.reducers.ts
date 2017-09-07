@@ -1,11 +1,5 @@
 import * as ShoppingListActions from './shopping-list.actions';
 import {ingredient} from "../../shared/ingredient.model";
-import {DELETE_INGREDIENT, START_EDIT, STOP_EDIT} from "./shopping-list.actions";
-
-export interface AppState {
-  shoppingList:State;
-}
-
 export interface State {
   ingredients:ingredient[];
   editedIngredient:ingredient;

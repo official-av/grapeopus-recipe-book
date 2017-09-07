@@ -1,9 +1,11 @@
- import {Component, ElementRef, Renderer2, ViewChild} from '@angular/core';
- import {RecipeService} from '../../recipes/recipes.service';
- import {ServerService} from '../../server.service';
-import {Recipe} from '../../recipes/recipe.model';
+ import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../auth/auth.service';
 import { Router } from '@angular/router';
+ import {Store} from "@ngrx/store";
+import * as fromApp from '../../store/app.reducers';
+ import {Observable} from "rxjs/Observable";
+import * as fromAuth from '../../auth/store/auth.reducer';
+ import * as AuthActions from "../../auth/store/auth.actions";
 
  @Component({
 	selector:'app-header',
@@ -11,17 +13,20 @@ import { Router } from '@angular/router';
 	styleUrls:['./header.component.css']
  })
 
- export class HeaderComponent {
-   @ViewChild('nav') el:ElementRef;
-   search=false;
+ export class HeaderComponent implements OnInit{
+   authState:Observable<fromAuth.State>;
    toggle=false;
-   toggleDrop=false;
 	 recipes=[];
+	 search=false;
+	 constructor(private authSvc:AuthService,private router:Router,private store:Store<fromApp.AppState>){}
 
-	 constructor(private recSvc:RecipeService,private serverSvc:ServerService,private authSvc:AuthService,private router:Router,private renderer:Renderer2){}
+	 ngOnInit(){
+  this.authState=this.store.select('auth');
+   }
 
 	 onLogout(){
-		 this.authSvc.logout();
+		 this.store.dispatch(new AuthActions.Logout());
+     this.authSvc.logout();
 		 this.router.navigateByUrl('/');
 	 }
 
@@ -31,8 +36,4 @@ import { Router } from '@angular/router';
 
 	 onToggle(){this.toggle=!this.toggle;
      }
-
-   onDropToggle(){
-	   this.toggleDrop=!this.toggleDrop;
-   }
  }

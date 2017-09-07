@@ -1,6 +1,6 @@
 input.ng-invalid.ng-touched,
 textarea.ng-invalid.ng-touched {
-	border: 1px solid red;
+  border: 1px solid red;
 }
 img {
   max-height:100%;
@@ -11,4 +11,35 @@ img {
 .scroller {
   max-height:520px;
   overflow-y: auto;
+}
+
+@media screen and (max-width: 575px) {
+  .container{
+    padding: 10px !important;
+    margin-bottom: 10px!important;
+    margin-top: 10px!important;
+  }
+}
+@media screen and (min-width: 576px) and (max-width: 767px) {
+  .container{
+    padding: 18px !important;
+
+    margin-bottom: 10px!important;
+    margin-top: 10px!important;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 991px) {
+  .container{
+    padding: 30px !important;
+  }
+}
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+  .container{
+    padding: 40px !important;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .container{
+    padding: 50px !important;
+  }
 }

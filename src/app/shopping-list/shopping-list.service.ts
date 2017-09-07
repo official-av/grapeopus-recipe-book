@@ -5,15 +5,16 @@ import {Injectable} from "@angular/core";
 import {ToastsManager} from "ng2-toastr";
 import {Store} from "@ngrx/store";
 import * as ShopListActions from './store/shopping-list.actions';
-import * as fromShoppingList from '../shopping-list/store/shopping-list.reducers';
+import * as fromApp from '../store/app.reducers';
+import {Subscription} from "rxjs/Subscription";
 
 @Injectable()
 export class ShoppingListService{
 	startedEdit=new Subject<number>();
-	ingredientsChanged=new Subject<ingredient[]>();
+	subs:Subscription;
 	private ingredients:ingredient[]=[];
 
-	constructor(private serverSvc:ServerService,private toastr:ToastsManager,private store:Store<fromShoppingList.AppState>) {}
+	constructor(private serverSvc:ServerService,private toastr:ToastsManager,private store:Store<fromApp.AppState>) {}
 
 	 getIngArr() {
 	  this.serverSvc.getIngr().subscribe(
@@ -27,7 +28,7 @@ export class ShoppingListService{
 	 }
 
   addIngredient(ingr:ingredient){
-    this.serverSvc.addIngr(ingr).subscribe(
+    this.subs=this.serverSvc.addIngr(ingr).subscribe(
       data=>{
         ingr.ingrid=data.ingrID;
         this.store.dispatch(new ShopListActions.AddIngredient(ingr));
@@ -39,7 +40,6 @@ export class ShoppingListService{
 	updateIngredient(index:number,ingr:ingredient){
 		this.ingredients[index]=ingr;
 		ingr.ingrid=this.serverSvc.getIngrID();
-		this.ingredientsChanged.next(this.ingredients.slice());
 		this.serverSvc.updateIngr(ingr).subscribe(
 		  data=>{
 		    this.store.dispatch(new ShopListActions.UpdateIngredient({ingredient:ingr}));
@@ -58,7 +58,6 @@ export class ShoppingListService{
 	}
 
   removeIngredients(){
-    this.ingredientsChanged.next([]);
     this.serverSvc.deleteIngrs().subscribe(
       data=>{
         this.store.dispatch(new ShopListActions.DeleteIngredients());

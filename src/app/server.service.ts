@@ -7,7 +7,6 @@ import {AuthService} from './auth/auth.service';
 import 'rxjs/Rx';
 import {ingredient} from "./shared/ingredient.model";
 import {ErrorService} from "./errors/error.service";
-import {RecipeService} from "./recipes/recipes.service";
 
 @Injectable()
 export class ServerService {
@@ -28,7 +27,7 @@ export class ServerService {
     const authToken = this.authService.getTk();
     const headers = new Headers({'x-access-token': authToken});
     const uid = this.authService.getUID();
-    return this.http.get('http://localhost:3000/recipes/' + uid, {headers: headers}).map(
+    return this.http.get('http://Grapeopus-env.nty2pagqgi.ap-south-1.elasticbeanstalk.com/recipes/' + uid, {headers: headers}).map(
       (response: Response) => {
         const recipes = response.json();
         for (let recipe of recipes) {
@@ -49,7 +48,7 @@ export class ServerService {
     const authToken = this.authService.getTk();
     const headers = new Headers({'x-access-token': authToken});
     recipe.addedBy = this.authService.getUID();
-    return this.http.post('http://localhost:3000/recipes', recipe, {headers: headers}).map(
+    return this.http.post('http://Grapeopus-env.nty2pagqgi.ap-south-1.elasticbeanstalk.com/recipes', recipe, {headers: headers}).map(
       (response: Response) => response.json()
     ).catch((error: Response) => {
       this.errorService.handleError(error.json());
@@ -60,7 +59,7 @@ export class ServerService {
   updateRecipe(recipe: Recipe) {
     const authToken = this.authService.getTk();
     const headers = new Headers({'x-access-token': authToken});
-    return this.http.put('http://localhost:3000/recipes/' + this.recId, recipe, {headers: headers}).map(
+    return this.http.put('http://Grapeopus-env.nty2pagqgi.ap-south-1.elasticbeanstalk.com/recipes/' + this.recId, recipe, {headers: headers}).map(
       (response: Response) => response.json()
     ).catch((error: Response) => {
       this.errorService.handleError(error.json());
@@ -71,7 +70,7 @@ export class ServerService {
   deleteRecipe() {
     const authToken = this.authService.getTk();
     const headers = new Headers({'x-access-token': authToken});
-    return this.http.delete('http://localhost:3000/recipes/' + this.recId, {headers: headers}).map(
+    return this.http.delete('http://Grapeopus-env.nty2pagqgi.ap-south-1.elasticbeanstalk.com/recipes/' + this.recId, {headers: headers}).map(
       (response: Response) => response.json()
     ).catch((error: Response) => {
       this.errorService.handleError(error.json());
@@ -84,7 +83,7 @@ export class ServerService {
     const authToken = this.authService.getTk();
     const headers = new Headers({'x-access-token': authToken});
     const uid = this.authService.getUID();
-    return this.http.get('http://localhost:3000/shopList/' + uid, {headers: headers}).map(
+    return this.http.get('http://Grapeopus-env.nty2pagqgi.ap-south-1.elasticbeanstalk.com/shopList/' + uid, {headers: headers}).map(
       (response: Response) => {
         const ingr = response.json();
         return ingr;
@@ -97,7 +96,7 @@ export class ServerService {
   addIngr(ingr: ingredient) {
     const authToken = this.authService.getTk();
     const headers = new Headers({'x-access-token': authToken});
-    return this.http.post('http://localhost:3000/shopList', ingr, {headers: headers}).map(
+    return this.http.post('http://Grapeopus-env.nty2pagqgi.ap-south-1.elasticbeanstalk.com/shopList', ingr, {headers: headers}).map(
       (response: Response) => response.json()).catch((error: Response) => {
       this.errorService.handleError(error.json());
       return Observable.throw(error.json());
@@ -107,7 +106,7 @@ export class ServerService {
   updateIngr(ingr: ingredient) {
     const authToken = this.authService.getTk();
     const headers = new Headers({'x-access-token': authToken});
-    return this.http.put('http://localhost:3000/shopList/' + ingr.ingrid, ingr, {headers: headers}).map(
+    return this.http.put('http://Grapeopus-env.nty2pagqgi.ap-south-1.elasticbeanstalk.com/shopList/' + ingr.ingrid, ingr, {headers: headers}).map(
       (response: Response) => response.json()
     ).catch((error: Response) => {
       this.errorService.handleError(error.json());
@@ -119,7 +118,7 @@ export class ServerService {
     const authToken = this.authService.getTk();
     const headers = new Headers({'x-access-token': authToken});
     const ingrid = this.getIngrID();
-    return this.http.delete('http://localhost:3000/shopList/' + ingrid, {headers: headers}).map(
+    return this.http.delete('http://Grapeopus-env.nty2pagqgi.ap-south-1.elasticbeanstalk.com/shopList/' + ingrid, {headers: headers}).map(
       (response: Response) => response.json()).catch((error: Response) => {
       this.errorService.handleError(error.json());
       return Observable.throw(error.json());
@@ -130,7 +129,7 @@ export class ServerService {
     const authToken = this.authService.getTk();
     const headers = new Headers({'x-access-token': authToken});
     const uid = this.authService.getUID();
-    return this.http.delete('http://localhost:3000/shopList/all/'+uid, {headers: headers}).map(
+    return this.http.delete('http://Grapeopus-env.nty2pagqgi.ap-south-1.elasticbeanstalk.com/shopList/all/'+uid, {headers: headers}).map(
       (response: Response) => response.json()).catch((error: Response) => {
       this.errorService.handleError(error.json());
       return Observable.throw(error.json());

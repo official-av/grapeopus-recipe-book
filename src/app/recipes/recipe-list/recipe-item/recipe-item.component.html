@@ -4,7 +4,7 @@
     <div class="justify-content-between">
       <h5 class="mb-1 float-left">{{recipe.name}}</h5>
     </div>
-    <p class="mb-1 float-left">{{recipe.description}}</p>
+    <p class="mb-1 float-left">{{recipe.description | shorten : 20}}</p>
   </div>
   <span class="float-right"><img [src]="recipe.imagePath" alt="" class="img-fluid" style="max-height:50px"></span>
 </a>

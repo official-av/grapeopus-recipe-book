@@ -15,6 +15,6 @@ export class RecipeItemComponent implements OnInit {
   }
 
   storeRecId(){
-    this.serverSvc.setRecipeId(this.recipe._id);
+    this.serverSvc.setRecipeId(this.recipe.recID);
   }
 }

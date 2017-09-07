@@ -4,7 +4,7 @@ import {ShoppingListService} from './shopping-list.service';
 import {ServerService} from "../server.service";
 import {Store} from '@ngrx/store';
 import {Observable} from "rxjs/Observable";
-import * as fromShoppingList from '../shopping-list/store/shopping-list.reducers';
+import * as fromApp from '../store/app.reducers';
 import * as ShoppingListActions from "./store/shopping-list.actions";
 
 @Component({
@@ -18,7 +18,7 @@ export class ShoppingListComponent implements OnInit,OnDestroy {
   IngrArr:ingredient[];
   ingrID:string;
 
-  constructor(private shopListService:ShoppingListService,private serverSvc:ServerService,private store:Store<fromShoppingList.AppState>) {}
+  constructor(private shopListService:ShoppingListService,private serverSvc:ServerService,private store:Store<fromApp.AppState>) {}
 
   ngOnInit() {
     if(localStorage.getItem('firstLogin')==='true'){
@@ -34,8 +34,7 @@ export class ShoppingListComponent implements OnInit,OnDestroy {
 	onEditItem(index:number){
     this.store.dispatch(new ShoppingListActions.StartEdit(index));
     this.ShopListState.subscribe(
-	    data=>{this.ingrID=data.ingredients[index].ingrid;
-        return;}
+	    data=>{this.ingrID=data.ingredients[index].ingrid;}
     ).unsubscribe();
 		this.shopListService.startedEdit.next(index);
     this.serverSvc.setIngrID(this.ingrID);

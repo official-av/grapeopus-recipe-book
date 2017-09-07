@@ -22,3 +22,39 @@ a:hover{
   width:100%;
   margin:10px 0 10px 0;
 }
+
+.scroller {
+  max-height:520px;
+  overflow-y: auto;
+}
+@media screen and (max-width: 575px) {
+  .container2{
+    padding: 10px !important;
+    margin-bottom: 10px!important;
+    margin-top: 10px!important;
+  }
+}
+@media screen and (min-width: 576px) and (max-width: 767px) {
+  .container2{
+    padding: 18px !important;
+
+    margin-bottom: 10px!important;
+    margin-top: 10px!important;
+  }
+}
+@media screen and (min-width: 768px) and (max-width: 991px) {
+  .container2{
+    padding: 30px !important;
+  }
+}
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+  .container2{
+    padding: 40px !important;
+  }
+}
+@media screen and (min-width: 1200px) {
+  .container2{
+    padding: 50px !important;
+  }
+}
+

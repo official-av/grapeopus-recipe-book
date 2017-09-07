@@ -1,44 +1,45 @@
-<div class="card scroller">
-  <div class="card-body">
-    <div class="container">
-      <div class="row">
-        <div class="col-xs-12" style="width: 100%;">
-          <img src="{{recipeDetails.imagePath}}" alt="" class="img-responsive">
+<div class="container2">
+  <div class="card scroller">
+    <div class="card-body">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12" style="width: 100%;">
+            <img src="{{recipe?.imagePath}}" alt="" class="img-responsive">
+          </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <h1>{{recipeDetails.name}}</h1>
-        </div>
-        <div class="col-xs-12 ml-auto">
-          <div class="dropdown">
-            <button class="btn btn-primary dropdown-toggle" (click)="toggledrop()" style="margin-top: 10px">Manage
-              Recipe
-              <span class="caret"></span>
-            </button>
-            <div class="dropdown-menu" [ngClass]="{'show':this.toggle}">
-              <a class="dropdown-item" (click)="addToList()" style="cursor: pointer">To Shopping list</a>
-              <a class="dropdown-item" style="cursor: pointer" routerLink="edit" style="text-decoration: none">Edit
-                Recipe</a>
-              <a class="dropdown-item" style="cursor: pointer" (click)="onDelete()">Delete Recipe</a>
+        <div class="row">
+          <div class="col-xs-12">
+            <h1>{{recipe?.name}}</h1>
+          </div>
+          <div class="col-xs-12 ml-auto">
+            <div class="dropdown" >
+              <button class="btn btn-primary dropdown-toggle" (click)="toggledrop()" (clickOutside)="this.toggle=false" style="margin-top: 10px">Manage
+                Recipe
+                <span class="caret"></span>
+              </button>
+              <div class="dropdown-menu" [ngClass]="{'show':this.toggle}">
+                <a class="dropdown-item" (click)="addToList()" style="cursor: pointer">To Shopping list</a>
+                <a class="dropdown-item" style="cursor: pointer" routerLink="edit" style="text-decoration: none">Edit
+                  Recipe</a>
+                <a class="dropdown-item" style="cursor: pointer" (click)="onDelete()">Delete Recipe</a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12 desc">{{recipeDetails.description}}</div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <ul class="list-group">
-            <li class="list-group-item" *ngFor="let ingredient of recipeDetails.ingredients">{{ingredient.name}} -
-              {{ingredient.amount}} {{ingredient.unit}}
-            </li>
-          </ul>
+        <div class="row">
+          <div class="col-xs-12 desc">{{recipe?.description}}</div>
         </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <ul class="list-group">
+              <li class="list-group-item" *ngFor="let ingredient of recipe?.ingredients">{{ingredient.name}} -
+                {{ingredient.amount}} {{ingredient.unit}}
+              </li>
+            </ul>
+          </div>
+        </div>
+
       </div>
-
     </div>
-
   </div>
 </div>
